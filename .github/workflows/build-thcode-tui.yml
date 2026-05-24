@@ -43,21 +43,34 @@ jobs:
         with:
           shared-key: thcode-tui-${{ matrix.target }}
 
-      - name: Build CLI (release)
-        # package name is `codewhale-cli` (see crates/cli/Cargo.toml);
-        # it produces a binary named `codewhale` via the [[bin]] entry.
-        run: cargo build --release --target ${{ matrix.target }} -p codewhale-cli --bin codewhale
+      - name: Build CLI + TUI (release)
+        # codewhale is a dispatcher that spawns a sibling `codewhale-tui`
+        # binary for interactive sessions — both must ship together in
+        # the same directory or runtime ENOENTs at first TUI launch.
+        run: |
+          cargo build --release --target ${{ matrix.target }} -p codewhale-cli --bin codewhale
+          cargo build --release --target ${{ matrix.target }} -p codewhale-tui --bin codewhale-tui
 
       - name: Package
+        # codewhale dispatcher hunts for a sibling binary literally named
+        # `codewhale-tui` in the same directory (see
+        # crates/cli/src/main.rs companion-binary lookup). We ship the
+        # pair side-by-side: dispatcher named `thcode-bin` (what the
+        # npm wrapper exec's) + companion `codewhale-tui` next to it.
         run: |
           set -euo pipefail
           mkdir -p out/payload
-          bin_name=codewhale
-          if [ "${{ matrix.target }}" = "x86_64-pc-windows-msvc" ]; then bin_name=codewhale.exe; fi
-          cp "target/${{ matrix.target }}/release/${bin_name}" out/payload/thcode-tui
-          chmod +x out/payload/thcode-tui
+          cli_bin=codewhale
+          tui_bin=codewhale-tui
+          if [ "${{ matrix.target }}" = "x86_64-pc-windows-msvc" ]; then
+            cli_bin=codewhale.exe
+            tui_bin=codewhale-tui.exe
+          fi
+          cp "target/${{ matrix.target }}/release/${cli_bin}" out/payload/thcode-bin
+          cp "target/${{ matrix.target }}/release/${tui_bin}" out/payload/codewhale-tui
+          chmod +x out/payload/thcode-bin out/payload/codewhale-tui
           cp LICENSE out/payload/LICENSE
-          (cd out/payload && tar -czf "../${{ matrix.asset }}" thcode-tui LICENSE)
+          (cd out/payload && tar -czf "../${{ matrix.asset }}" thcode-bin codewhale-tui LICENSE)
           ls -lh out/
 
       - uses: actions/upload-artifact@v4
