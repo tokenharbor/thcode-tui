@@ -105,8 +105,8 @@ fn configure_windows_console_utf8() {}
     bin_name = "codewhale-tui",
     author,
     version = env!("DEEPSEEK_BUILD_VERSION"),
-    about = "codewhale/CLI for DeepSeek models",
-    long_about = "Terminal-native TUI and CLI for DeepSeek models.\n\nRun 'codewhale' to start.\n\nNot affiliated with DeepSeek Inc."
+    about = "thcode — Token Harbor's terminal coding agent",
+    long_about = "Terminal-native TUI and CLI distributed by Token Harbor.\n\nRun 'thcode' to start.\n\nForked from CodeWhale (DeepSeek-TUI); not affiliated with DeepSeek Inc."
 )]
 struct Cli {
     /// Subcommand to run

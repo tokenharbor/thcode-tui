@@ -94,31 +94,28 @@ pub(crate) fn looks_like_slash_command_input(input: &str) -> bool {
 }
 
 fn initial_onboarding_state(
-    skip_onboarding: bool,
-    was_onboarded: bool,
-    needs_api_key: bool,
-    needs_workspace_trust: bool,
+    _skip_onboarding: bool,
+    _was_onboarded: bool,
+    _needs_api_key: bool,
+    _needs_workspace_trust: bool,
 ) -> OnboardingState {
-    if skip_onboarding || (was_onboarded && !needs_api_key && !needs_workspace_trust) {
-        return OnboardingState::None;
-    }
-
-    if was_onboarded && needs_api_key {
-        OnboardingState::ApiKey
-    } else if was_onboarded && needs_workspace_trust {
-        OnboardingState::TrustDirectory
-    } else {
-        OnboardingState::Welcome
-    }
+    // Token Harbor distribution: the npm wrapper writes ~/.deepseek/config.toml
+    // with the TH gateway URL + thk_live key + trust marker BEFORE the binary
+    // ever boots. The upstream 5-step wizard (Welcome → Language → ApiKey →
+    // TrustDirectory → Tips) is irrelevant under this delivery model — every
+    // launch should land directly in the TUI.
+    OnboardingState::None
 }
 
 fn onboarding_is_workspace_trust_gate(
-    skip_onboarding: bool,
-    was_onboarded: bool,
-    needs_api_key: bool,
-    needs_workspace_trust: bool,
+    _skip_onboarding: bool,
+    _was_onboarded: bool,
+    _needs_api_key: bool,
+    _needs_workspace_trust: bool,
 ) -> bool {
-    !skip_onboarding && was_onboarded && !needs_api_key && needs_workspace_trust
+    // Token Harbor distribution skips the wizard entirely (see
+    // `initial_onboarding_state`); there's no trust-only gate to consider.
+    false
 }
 
 /// Supported application modes for the TUI.
@@ -4964,78 +4961,30 @@ mod tests {
         assert_eq!(app.input, "array[]8 elements");
     }
 
-    // initial_onboarding_state tests
-    // These pin the logic that decides whether the TUI shows the
-    // onboarding flow (Welcome → Language → ApiKey → …) or goes
-    // straight to the chat view.  Getting this wrong either locks
-    // first-run users out of the API-key prompt or nags returning
-    // users whose key is already configured.
+    // Token Harbor distribution forces `initial_onboarding_state` to
+    // OnboardingState::None and `onboarding_is_workspace_trust_gate` to
+    // false regardless of inputs — the npm wrapper handles auth + trust
+    // before the binary boots. The upstream wizard-routing tests are
+    // therefore obsolete and have been removed (kept the pin below so
+    // a future regression is caught early).
 
     #[test]
-    fn skip_onboarding_suppresses_all_onboarding_states() {
-        assert_eq!(
-            initial_onboarding_state(true, false, true, true),
-            OnboardingState::None
-        );
-        assert_eq!(
-            initial_onboarding_state(true, true, true, true),
-            OnboardingState::None
-        );
-    }
-
-    #[test]
-    fn fully_configured_returning_user_skips_onboarding() {
-        assert_eq!(
-            initial_onboarding_state(false, true, false, false),
-            OnboardingState::None
-        );
-    }
-
-    #[test]
-    fn returning_user_missing_api_key_goes_to_api_key_screen() {
-        assert_eq!(
-            initial_onboarding_state(false, true, true, false),
-            OnboardingState::ApiKey
-        );
-        // workspace trust doesn't affect the api-key gate
-        assert_eq!(
-            initial_onboarding_state(false, true, true, true),
-            OnboardingState::ApiKey
-        );
-    }
-
-    #[test]
-    fn first_run_user_always_starts_at_welcome() {
-        assert_eq!(
-            initial_onboarding_state(false, false, false, false),
-            OnboardingState::Welcome
-        );
-        assert_eq!(
-            initial_onboarding_state(false, false, true, false),
-            OnboardingState::Welcome
-        );
-        assert_eq!(
-            initial_onboarding_state(false, false, false, true),
-            OnboardingState::Welcome
-        );
-    }
-
-    #[test]
-    fn onboarding_workspace_trust_gate_only_fires_for_onboarded_user() {
-        assert!(onboarding_is_workspace_trust_gate(false, true, false, true));
-        assert!(!onboarding_is_workspace_trust_gate(true, true, false, true));
-        assert!(!onboarding_is_workspace_trust_gate(false, true, true, true));
-        assert!(!onboarding_is_workspace_trust_gate(
-            false, false, false, true
-        ));
-    }
-
-    #[test]
-    fn onboarded_user_still_gets_workspace_trust_prompt_when_needed() {
-        assert_eq!(
-            initial_onboarding_state(false, true, false, true),
-            OnboardingState::TrustDirectory
-        );
+    fn onboarding_always_skipped_under_th_brand() {
+        for skip in [true, false] {
+            for was in [true, false] {
+                for needs_key in [true, false] {
+                    for needs_trust in [true, false] {
+                        assert_eq!(
+                            initial_onboarding_state(skip, was, needs_key, needs_trust),
+                            OnboardingState::None
+                        );
+                        assert!(!onboarding_is_workspace_trust_gate(
+                            skip, was, needs_key, needs_trust
+                        ));
+                    }
+                }
+            }
+        }
     }
 
     // App::new tests: missing key is detected

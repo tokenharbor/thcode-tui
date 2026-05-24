@@ -900,7 +900,7 @@ fn english(id: MessageId) -> &'static str {
             "Attach image/video media; use @path for text files or directories"
         }
         MessageId::CmdCacheDescription => {
-            "Show DeepSeek prefix-cache hit/miss stats for the last N turns"
+            "Show prompt-cache hit/miss stats for the last N turns"
         }
         MessageId::CmdChangeDescription => "Show the latest changelog entry",
         MessageId::CmdChangeHeader => "Latest Changelog",
@@ -938,7 +938,7 @@ fn english(id: MessageId) -> &'static str {
         MessageId::CmdLspDescription => "Toggle LSP diagnostics on or off",
         MessageId::CmdShareDescription => "Export current session as a shareable web URL",
         MessageId::CmdJobsDescription => "Inspect and control background shell jobs",
-        MessageId::CmdLinksDescription => "Show DeepSeek dashboard and docs links",
+        MessageId::CmdLinksDescription => "Show Token Harbor dashboard and docs links",
         MessageId::CmdLoadDescription => "Load session from file",
         MessageId::CmdLogoutDescription => "Clear API key and return to setup",
         MessageId::CmdMcpDescription => "Open or manage MCP servers",
@@ -952,7 +952,7 @@ fn english(id: MessageId) -> &'static str {
         MessageId::CmdNoteDescription => "Add, list, edit, or remove workspace notes",
         MessageId::CmdThemeDescription => "Switch theme or open the theme picker",
         MessageId::CmdProviderDescription => {
-            "Switch or view the active LLM backend (codewhale | nvidia-nim | ollama)"
+            "Switch or view the active LLM backend (token-harbor)"
         }
         MessageId::CmdQueueDescription => "View or edit queued messages",
         MessageId::CmdRecallDescription => "Search prior cycle archives (BM25 over message text)",
@@ -1026,7 +1026,7 @@ fn english(id: MessageId) -> &'static str {
              ─────────────────────────────\n\
              Approx total spent: {cost}\n\n\
              Cost estimates are approximate and use provider usage telemetry when available.\n\n\
-             DeepSeek API Pricing:\n\
+             Token Harbor API Pricing:\n\
              ─────────────────────────────\n\
              Pricing details are not configured in this CLI."
         }
@@ -1125,13 +1125,13 @@ fn english(id: MessageId) -> &'static str {
             "Conversation cleared (plan state busy; run /clear again if needed)"
         }
         MessageId::ModelChanged => "Model changed: {old} \u{2192} {new}",
-        MessageId::LinksTitle => "DeepSeek Links:",
+        MessageId::LinksTitle => "Token Harbor Links:",
         MessageId::LinksDashboard => "Dashboard:",
         MessageId::LinksDocs => "Docs:",
         MessageId::LinksTip => "Tip: API keys are available in the dashboard console.",
         MessageId::SubagentsFetching => "Fetching sub-agent status...",
         MessageId::HelpUnknownCommand => "Unknown command: {topic}",
-        MessageId::HomeDashboardTitle => "codewhale Home Dashboard",
+        MessageId::HomeDashboardTitle => "Token Harbor Home Dashboard",
         MessageId::HomeModel => "Model:",
         MessageId::HomeMode => "Mode:",
         MessageId::HomeWorkspace => "Workspace:",
@@ -1166,9 +1166,9 @@ fn english(id: MessageId) -> &'static str {
             "Press 1-6 to choose, or Enter to keep the current setting"
         }
         // Onboarding — API key entry.
-        MessageId::OnboardApiKeyTitle => "Connect your DeepSeek API key",
+        MessageId::OnboardApiKeyTitle => "Connect your Token Harbor API key",
         MessageId::OnboardApiKeyStep1 => {
-            "Step 1.  Open https://platform.deepseek.com/api_keys and create a key."
+            "Step 1.  Open https://tokenharbor.ai/dashboard and create a key."
         }
         MessageId::OnboardApiKeyStep2 => "Step 2.  Paste it below and press Enter.",
         MessageId::OnboardApiKeySavedHint => {
@@ -1278,7 +1278,7 @@ fn japanese(id: MessageId) -> Option<&'static str> {
             "画像・動画メディアを添付（テキストファイルやディレクトリは @path）"
         }
         MessageId::CmdCacheDescription => {
-            "直近 N ターンの DeepSeek プレフィックスキャッシュのヒット/ミス統計を表示"
+            "直近 N ターンのプロンプトキャッシュのヒット/ミス統計を表示"
         }
         MessageId::CmdChangeDescription => "最新の更新履歴を表示",
         MessageId::CmdChangeHeader => "最新の更新履歴",
@@ -1320,7 +1320,7 @@ fn japanese(id: MessageId) -> Option<&'static str> {
         MessageId::CmdLspDescription => "LSP 診断のオン・オフを切り替え",
         MessageId::CmdShareDescription => "現在のセッションを共有可能な Web URL としてエクスポート",
         MessageId::CmdJobsDescription => "バックグラウンドのシェルジョブを確認・制御",
-        MessageId::CmdLinksDescription => "DeepSeek ダッシュボードとドキュメントへのリンクを表示",
+        MessageId::CmdLinksDescription => "Token Harbor ダッシュボードとドキュメントへのリンクを表示",
         MessageId::CmdLoadDescription => "ファイルからセッションを読み込み",
         MessageId::CmdLogoutDescription => "API キーを消去してセットアップに戻る",
         MessageId::CmdMcpDescription => "MCP サーバを開く・管理する",
@@ -1336,7 +1336,7 @@ fn japanese(id: MessageId) -> Option<&'static str> {
             "テーマを切り替え（ダーク/ライト/グレースケール/システム）"
         }
         MessageId::CmdProviderDescription => {
-            "現在の LLM バックエンドを切り替え・確認（codewhale | nvidia-nim | ollama）"
+            "現在の LLM バックエンドを切り替え・確認（token-harbor）"
         }
         MessageId::CmdQueueDescription => "キューされたメッセージを確認・編集",
         MessageId::CmdRecallDescription => {
@@ -1409,7 +1409,7 @@ fn japanese(id: MessageId) -> Option<&'static str> {
              ─────────────────────────────\n\
              累計概算: {cost}\n\n\
              費用は概算値。プロバイダの使用量テレメトリがあれば優先して使用します。\n\n\
-             DeepSeek API 料金:\n\
+             Token Harbor API 料金:\n\
              ─────────────────────────────\n\
              本 CLI には詳細な料金表は組み込まれていません。"
         }
@@ -1510,13 +1510,13 @@ fn japanese(id: MessageId) -> Option<&'static str> {
             "会話履歴をクリアしました（plan 状態が忙しい；必要なら /clear を再度実行）"
         }
         MessageId::ModelChanged => "モデルを変更しました: {old} → {new}",
-        MessageId::LinksTitle => "DeepSeek リンク：",
+        MessageId::LinksTitle => "Token Harbor リンク：",
         MessageId::LinksDashboard => "ダッシュボード：",
         MessageId::LinksDocs => "ドキュメント：",
         MessageId::LinksTip => "ヒント: API キーはダッシュボードコンソールで取得できます。",
         MessageId::SubagentsFetching => "サブエージェントの状態を取得中...",
         MessageId::HelpUnknownCommand => "不明なコマンド: {topic}",
-        MessageId::HomeDashboardTitle => "codewhale ホームダッシュボード",
+        MessageId::HomeDashboardTitle => "Token Harbor ホームダッシュボード",
         MessageId::HomeModel => "モデル：",
         MessageId::HomeMode => "モード：",
         MessageId::HomeWorkspace => "ワークスペース：",
@@ -1551,9 +1551,9 @@ fn japanese(id: MessageId) -> Option<&'static str> {
         }
         MessageId::OnboardLanguageFooter => "1〜6 で選択、または Enter で現在の設定を維持",
         // Onboarding — API key entry.
-        MessageId::OnboardApiKeyTitle => "DeepSeek API キーを設定",
+        MessageId::OnboardApiKeyTitle => "Token Harbor API キーを設定",
         MessageId::OnboardApiKeyStep1 => {
-            "ステップ 1. https://platform.deepseek.com/api_keys を開いてキーを作成。"
+            "ステップ 1. https://tokenharbor.ai/dashboard を開いてキーを作成。"
         }
         MessageId::OnboardApiKeyStep2 => "ステップ 2. 下に貼り付けて Enter を押してください。",
         MessageId::OnboardApiKeySavedHint => {
@@ -1632,7 +1632,7 @@ fn chinese_simplified(id: MessageId) -> Option<&'static str> {
         MessageId::HelpFooterClose => " Esc 关闭 ",
         MessageId::CmdAnchorDescription => "钉选关键事实，在压缩后自动注入上下文",
         MessageId::CmdAttachDescription => "附加图片或视频媒体；文本文件或目录请使用 @path",
-        MessageId::CmdCacheDescription => "显示最近 N 轮的 DeepSeek 前缀缓存命中/未命中统计",
+        MessageId::CmdCacheDescription => "显示最近 N 轮的提示缓存命中/未命中统计",
         MessageId::CmdChangeDescription => "显示最新的更新日志",
         MessageId::CmdChangeHeader => "最新更新日志",
         MessageId::CmdChangeTranslationQueued => {
@@ -1667,7 +1667,7 @@ fn chinese_simplified(id: MessageId) -> Option<&'static str> {
         MessageId::CmdLspDescription => "切换 LSP 诊断的开启或关闭",
         MessageId::CmdShareDescription => "将当前会话导出为可共享的 Web URL",
         MessageId::CmdJobsDescription => "查看并管理后台 shell 作业",
-        MessageId::CmdLinksDescription => "显示 DeepSeek 控制台与文档链接",
+        MessageId::CmdLinksDescription => "显示 Token Harbor 控制台与文档链接",
         MessageId::CmdLoadDescription => "从文件加载会话",
         MessageId::CmdLogoutDescription => "清除 API 密钥并返回设置",
         MessageId::CmdMcpDescription => "打开或管理 MCP 服务器",
@@ -1679,7 +1679,7 @@ fn chinese_simplified(id: MessageId) -> Option<&'static str> {
         MessageId::CmdNoteDescription => "添加、列出、编辑或删除工作区笔记",
         MessageId::CmdThemeDescription => "切换主题：深色、浅色、灰度或系统",
         MessageId::CmdProviderDescription => {
-            "切换或查看当前 LLM 后端（codewhale | nvidia-nim | ollama）"
+            "切换或查看当前 LLM 后端（token-harbor）"
         }
         MessageId::CmdQueueDescription => "查看或编辑已排队的消息",
         MessageId::CmdRecallDescription => "搜索此前的循环归档（基于消息文本的 BM25 检索）",
@@ -1740,7 +1740,7 @@ fn chinese_simplified(id: MessageId) -> Option<&'static str> {
              ─────────────────────────────\n\
              预估累计消耗：{cost}\n\n\
              费用为估算值；如有提供方用量遥测会优先使用。\n\n\
-             DeepSeek API 计费：\n\
+             Token Harbor API 计费：\n\
              ─────────────────────────────\n\
              此 CLI 中未配置详细计费规则。"
         }
@@ -1827,13 +1827,13 @@ fn chinese_simplified(id: MessageId) -> Option<&'static str> {
             "对话已清空（Plan 状态忙碌；如需再次清空请运行 /clear）"
         }
         MessageId::ModelChanged => "模型已切换：{old} \u{2192} {new}",
-        MessageId::LinksTitle => "DeepSeek 链接：",
+        MessageId::LinksTitle => "Token Harbor 链接：",
         MessageId::LinksDashboard => "控制台：",
         MessageId::LinksDocs => "文档：",
         MessageId::LinksTip => "提示：API 密钥可在控制台中获取。",
         MessageId::SubagentsFetching => "正在获取子代理状态...",
         MessageId::HelpUnknownCommand => "未知命令：{topic}",
-        MessageId::HomeDashboardTitle => "codewhale 主面板",
+        MessageId::HomeDashboardTitle => "Token Harbor 主面板",
         MessageId::HomeModel => "模型：",
         MessageId::HomeMode => "模式：",
         MessageId::HomeWorkspace => "工作区：",
@@ -1866,9 +1866,9 @@ fn chinese_simplified(id: MessageId) -> Option<&'static str> {
         }
         MessageId::OnboardLanguageFooter => "按 1-6 选择，或按 Enter 保留当前设置",
         // Onboarding — API key entry.
-        MessageId::OnboardApiKeyTitle => "连接你的 DeepSeek API 密钥",
+        MessageId::OnboardApiKeyTitle => "连接你的 Token Harbor API 密钥",
         MessageId::OnboardApiKeyStep1 => {
-            "步骤 1.  打开 https://platform.deepseek.com/api_keys 创建一个密钥。"
+            "步骤 1.  打开 https://tokenharbor.ai/dashboard 创建一个密钥。"
         }
         MessageId::OnboardApiKeyStep2 => "步骤 2.  把密钥粘贴到下方并按 Enter。",
         MessageId::OnboardApiKeySavedHint => {
@@ -1944,7 +1944,7 @@ fn portuguese_brazil(id: MessageId) -> Option<&'static str> {
             "Anexar imagem ou vídeo; use @path para arquivos de texto ou diretórios"
         }
         MessageId::CmdCacheDescription => {
-            "Exibir estatísticas de hit/miss do cache de prefixo DeepSeek nas últimas N rodadas"
+            "Exibir estatísticas de hit/miss do cache de prompt nas últimas N rodadas"
         }
         MessageId::CmdChangeDescription => "Mostrar a entrada mais recente do changelog",
         MessageId::CmdChangeHeader => "Changelog Mais Recente",
@@ -1990,7 +1990,7 @@ fn portuguese_brazil(id: MessageId) -> Option<&'static str> {
         MessageId::CmdLspDescription => "Alternar diagnóstico LSP ligado ou desligado",
         MessageId::CmdShareDescription => "Exportar a sessão atual como uma URL web compartilhável",
         MessageId::CmdJobsDescription => "Inspecionar e controlar jobs de shell em segundo plano",
-        MessageId::CmdLinksDescription => "Exibir links do painel e da documentação do DeepSeek",
+        MessageId::CmdLinksDescription => "Exibir links do painel e da documentação do Token Harbor",
         MessageId::CmdLoadDescription => "Carregar a sessão de um arquivo",
         MessageId::CmdLogoutDescription => "Limpar a chave de API e voltar à configuração",
         MessageId::CmdMcpDescription => "Abrir ou gerenciar servidores MCP",
@@ -2006,7 +2006,7 @@ fn portuguese_brazil(id: MessageId) -> Option<&'static str> {
         MessageId::CmdNoteDescription => "Adicionar, listar, editar ou remover notas do workspace",
         MessageId::CmdThemeDescription => "Alternar tema: escuro, claro, tons de cinza ou sistema",
         MessageId::CmdProviderDescription => {
-            "Trocar ou exibir o backend LLM ativo (codewhale | nvidia-nim | ollama)"
+            "Trocar ou exibir o backend LLM ativo (token-harbor)"
         }
         MessageId::CmdQueueDescription => "Ver ou editar mensagens enfileiradas",
         MessageId::CmdRecallDescription => {
@@ -2087,7 +2087,7 @@ fn portuguese_brazil(id: MessageId) -> Option<&'static str> {
              ─────────────────────────────\n\
              Total aproximado: {cost}\n\n\
              Estimativas de custo são aproximadas e usam a telemetria de uso do provedor quando disponível.\n\n\
-             Preços da API DeepSeek:\n\
+             Preços da API Token Harbor:\n\
              ─────────────────────────────\n\
              Os detalhes de preço não estão configurados nesta CLI."
         }
@@ -2192,13 +2192,13 @@ fn portuguese_brazil(id: MessageId) -> Option<&'static str> {
             "Conversa limpa (estado do plano ocupado; execute /clear novamente se necessário)"
         }
         MessageId::ModelChanged => "Modelo alterado: {old} \u{2192} {new}",
-        MessageId::LinksTitle => "Links do DeepSeek:",
+        MessageId::LinksTitle => "Links do Token Harbor:",
         MessageId::LinksDashboard => "Painel:",
         MessageId::LinksDocs => "Documentação:",
         MessageId::LinksTip => "Dica: chaves de API estão disponíveis no console do painel.",
         MessageId::SubagentsFetching => "Buscando status dos sub-agentes...",
         MessageId::HelpUnknownCommand => "Comando desconhecido: {topic}",
-        MessageId::HomeDashboardTitle => "Painel Inicial do codewhale",
+        MessageId::HomeDashboardTitle => "Painel Inicial do Token Harbor",
         MessageId::HomeModel => "Modelo:",
         MessageId::HomeMode => "Modo:",
         MessageId::HomeWorkspace => "Workspace:",
@@ -2239,9 +2239,9 @@ fn portuguese_brazil(id: MessageId) -> Option<&'static str> {
             "Pressione 1-6 para escolher, ou Enter para manter a configuração atual"
         }
         // Onboarding — API key entry.
-        MessageId::OnboardApiKeyTitle => "Conecte sua chave de API DeepSeek",
+        MessageId::OnboardApiKeyTitle => "Conecte sua chave de API Token Harbor",
         MessageId::OnboardApiKeyStep1 => {
-            "Passo 1.  Abra https://platform.deepseek.com/api_keys e crie uma chave."
+            "Passo 1.  Abra https://tokenharbor.ai/dashboard e crie uma chave."
         }
         MessageId::OnboardApiKeyStep2 => "Passo 2.  Cole abaixo e pressione Enter.",
         MessageId::OnboardApiKeySavedHint => {
@@ -2327,7 +2327,7 @@ fn spanish_latin_america(id: MessageId) -> Option<&'static str> {
             "Adjuntar imagen o video; usa @ruta para archivos de texto o directorios"
         }
         MessageId::CmdCacheDescription => {
-            "Mostrar estadísticas de hit/miss del caché de prefijo DeepSeek en las últimas N rondas"
+            "Mostrar estadísticas de hit/miss del caché de prompt en las últimas N rondas"
         }
         MessageId::CmdChangeDescription => "Mostrar la entrada más reciente del changelog",
         MessageId::CmdChangeHeader => "Changelog más reciente",
@@ -2377,7 +2377,7 @@ fn spanish_latin_america(id: MessageId) -> Option<&'static str> {
         MessageId::CmdJobsDescription => {
             "Inspeccionar y controlar trabajos de shell en segundo plano"
         }
-        MessageId::CmdLinksDescription => "Mostrar enlaces del panel y documentación de DeepSeek",
+        MessageId::CmdLinksDescription => "Mostrar enlaces del panel y documentación de Token Harbor",
         MessageId::CmdLoadDescription => "Cargar la sesión desde un archivo",
         MessageId::CmdLogoutDescription => "Limpiar la clave de API y volver a la configuración",
         MessageId::CmdMcpDescription => "Abrir o gestionar servidores MCP",
@@ -2393,7 +2393,7 @@ fn spanish_latin_america(id: MessageId) -> Option<&'static str> {
         MessageId::CmdNoteDescription => "Agregar nota al archivo persistente (.deepseek/notes.md)",
         MessageId::CmdThemeDescription => "Alternar entre tema claro y oscuro",
         MessageId::CmdProviderDescription => {
-            "Cambiar o mostrar el backend LLM activo (codewhale | nvidia-nim | ollama)"
+            "Cambiar o mostrar el backend LLM activo (token-harbor)"
         }
         MessageId::CmdQueueDescription => "Ver o editar mensajes en cola",
         MessageId::CmdRecallDescription => {
@@ -2478,7 +2478,7 @@ fn spanish_latin_america(id: MessageId) -> Option<&'static str> {
              ─────────────────────────────\n\
              Total aproximado: {cost}\n\n\
              Las estimaciones de costo son aproximadas y usan la telemetría de uso del proveedor cuando está disponible.\n\n\
-             Precios de la API DeepSeek:\n\
+             Precios de la API Token Harbor:\n\
              ─────────────────────────────\n\
              Los detalles de precio no están configurados en esta CLI."
         }
@@ -2585,13 +2585,13 @@ fn spanish_latin_america(id: MessageId) -> Option<&'static str> {
             "Conversación limpia (estado del plan ocupado; ejecuta /clear de nuevo si es necesario)"
         }
         MessageId::ModelChanged => "Modelo cambiado: {old} \u{2192} {new}",
-        MessageId::LinksTitle => "Enlaces de DeepSeek:",
+        MessageId::LinksTitle => "Enlaces de Token Harbor:",
         MessageId::LinksDashboard => "Panel:",
         MessageId::LinksDocs => "Documentación:",
         MessageId::LinksTip => "Tip: las claves de API están disponibles en la consola del panel.",
         MessageId::SubagentsFetching => "Obteniendo estado de los sub-agentes...",
         MessageId::HelpUnknownCommand => "Comando desconocido: {topic}",
-        MessageId::HomeDashboardTitle => "Panel Inicial de codewhale",
+        MessageId::HomeDashboardTitle => "Panel Inicial de Token Harbor",
         MessageId::HomeModel => "Modelo:",
         MessageId::HomeMode => "Modo:",
         MessageId::HomeWorkspace => "Workspace:",
@@ -2630,9 +2630,9 @@ fn spanish_latin_america(id: MessageId) -> Option<&'static str> {
         MessageId::OnboardLanguageFooter => {
             "Presiona 1-5 para elegir, o Enter para mantener la configuración actual"
         }
-        MessageId::OnboardApiKeyTitle => "Conecta tu clave de API DeepSeek",
+        MessageId::OnboardApiKeyTitle => "Conecta tu clave de API Token Harbor",
         MessageId::OnboardApiKeyStep1 => {
-            "Paso 1.  Abre https://platform.deepseek.com/api_keys y crea una clave."
+            "Paso 1.  Abre https://tokenharbor.ai/dashboard y crea una clave."
         }
         MessageId::OnboardApiKeyStep2 => "Paso 2.  Pégala abajo y presiona Enter.",
         MessageId::OnboardApiKeySavedHint => {

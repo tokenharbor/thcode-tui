@@ -8,26 +8,26 @@ use crate::palette;
 pub fn lines() -> Vec<Line<'static>> {
     vec![
         Line::from(Span::styled(
-            "codewhale",
+            "Token Harbor",
             Style::default()
                 .fg(palette::DEEPSEEK_BLUE)
                 .add_modifier(Modifier::BOLD),
         )),
         Line::from(Span::styled(
-            format!("Version {}", env!("CARGO_PKG_VERSION")),
+            format!("thcode {}", env!("CARGO_PKG_VERSION")),
             Style::default().fg(palette::TEXT_MUTED),
         )),
         Line::from(""),
         Line::from(Span::styled(
-            "A focused terminal workspace for longer model sessions.",
+            "Token Harbor's terminal coding agent — every model, one key.",
             Style::default().fg(palette::TEXT_PRIMARY),
         )),
         Line::from(Span::styled(
-            "You'll add an API key, review trust for this directory, and then land in the chat.",
+            "Auth + provider are pre-configured by the thcode wrapper; you'll land directly in chat.",
             Style::default().fg(palette::TEXT_MUTED),
         )),
         Line::from(Span::styled(
-            "The main composer is multi-line, so you can write full prompts instead of squeezing everything into one line.",
+            "The main composer is multi-line — write full prompts without squeezing them into one line.",
             Style::default().fg(palette::TEXT_MUTED),
         )),
         Line::from(""),
