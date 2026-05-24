@@ -1,0 +1,102 @@
+name: build-thcode-tui
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'crates/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - '.github/workflows/build-thcode-tui.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14            # Apple Silicon
+            target: aarch64-apple-darwin
+            asset: thcode-tui-darwin-arm64.tar.gz
+          - os: macos-14            # Cross-compile to Intel from M-series runner
+            target: x86_64-apple-darwin
+            asset: thcode-tui-darwin-x64.tar.gz
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            asset: thcode-tui-linux-x64.tar.gz
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: thcode-tui-${{ matrix.target }}
+
+      - name: Build CLI (release)
+        run: cargo build --release --target ${{ matrix.target }} -p codewhale
+
+      - name: Package
+        run: |
+          set -euo pipefail
+          mkdir -p out/payload
+          bin_name=codewhale
+          if [ "${{ matrix.target }}" = "x86_64-pc-windows-msvc" ]; then bin_name=codewhale.exe; fi
+          cp "target/${{ matrix.target }}/release/${bin_name}" out/payload/thcode-tui
+          chmod +x out/payload/thcode-tui
+          cp LICENSE out/payload/LICENSE
+          (cd out/payload && tar -czf "../${{ matrix.asset }}" thcode-tui LICENSE)
+          ls -lh out/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: out/${{ matrix.asset }}
+          retention-days: 1
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
+
+      - name: Compute version tag
+        id: ver
+        run: |
+          v=$(grep -m1 '^version' crates/cli/Cargo.toml | sed -E 's/.*"([^"]+)".*/\1/')
+          sha=$(git rev-parse --short HEAD)
+          echo "tag=th-tui-v${v}-${sha}" >> "$GITHUB_OUTPUT"
+          echo "version=${v}" >> "$GITHUB_OUTPUT"
+          ls -lh out/
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          name: thcode-tui ${{ steps.ver.outputs.version }} (Token Harbor brand)
+          body: |
+            Token Harbor branded build of CodeWhale (DeepSeek-TUI) — see https://github.com/Hmbown/CodeWhale for upstream.
+
+            Assets:
+              - `thcode-tui-darwin-arm64.tar.gz`
+              - `thcode-tui-darwin-x64.tar.gz`
+              - `thcode-tui-linux-x64.tar.gz`
+
+            Auto-built from commit ${{ github.sha }}.
+          draft: false
+          prerelease: false
+          make_latest: true
+          files: |
+            out/thcode-tui-darwin-arm64.tar.gz
+            out/thcode-tui-darwin-x64.tar.gz
+            out/thcode-tui-linux-x64.tar.gz

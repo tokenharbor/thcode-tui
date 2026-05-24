@@ -802,7 +802,7 @@ mod tests {
     #[test]
     fn base_prompt_carries_brother_whale_identity() {
         // Pin only the load-bearing identity anchors. The exact prose
-        // can evolve, but CodeWhale should keep its product-level
+        // can evolve, but Token Harbor should keep its product-level
         // "trusted Brother Whale" frame and the coordination principle.
         for phrase in [
             "You are Brother Whale",

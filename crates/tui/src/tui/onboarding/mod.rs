@@ -43,7 +43,7 @@ pub fn render(f: &mut Frame, area: Rect, app: &App) {
     if !lines.is_empty() {
         let mut panel = Block::default()
             .title(Line::from(Span::styled(
-                " CodeWhale ",
+                " Token Harbor ",
                 Style::default()
                     .fg(palette::DEEPSEEK_BLUE)
                     .add_modifier(Modifier::BOLD),
@@ -131,7 +131,11 @@ pub fn default_marker_path() -> Option<PathBuf> {
 }
 
 pub fn is_onboarded() -> bool {
-    default_marker_path().is_some_and(|path| path.exists())
+    // Token Harbor distribution: wrapper writes config.toml with the
+    // TH gateway URL + thk_live key before this binary ever runs.
+    // The upstream DeepSeek-branded 5-step wizard is irrelevant —
+    // always report onboarded so users land directly in the TUI.
+    true
 }
 
 pub fn mark_onboarded() -> std::io::Result<PathBuf> {

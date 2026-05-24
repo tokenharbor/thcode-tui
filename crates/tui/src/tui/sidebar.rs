@@ -2324,7 +2324,7 @@ mod tests {
         let mut app = create_test_app();
         for _ in 0..3 {
             app.history.push(HistoryCell::Tool(ToolCell::Exec(ExecCell {
-                command: "cd /tmp/repo && sleep 15 && gh pr checks 1616 --repo Hmbown/CodeWhale"
+                command: "cd /tmp/repo && sleep 15 && gh pr checks 1616 --repo Hmbown/Token Harbor"
                     .to_string(),
                 status: ToolStatus::Failed,
                 output: Some("Lint pending\nTest pending".to_string()),
