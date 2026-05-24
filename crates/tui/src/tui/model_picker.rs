@@ -38,6 +38,18 @@ const PICKER_MODELS: &[(&str, &str)] = &[
     ("deepseek-v4-flash", "fast / cheap"),
 ];
 
+/// Models surfaced in the picker when the active provider passes the
+/// model id through to an OpenAI-compatible endpoint (which, in the
+/// Token Harbor distribution, is always the TH gateway). For the full
+/// live catalog including direct-vendor passthroughs (claude, gpt, glm,
+/// kimi, …) users can run `/models` to print the gateway's `/v1/models`
+/// response and then `/model <id>` to switch.
+const TOKEN_HARBOR_MODELS: &[(&str, &str)] = &[
+    ("auto", "smart router picks"),
+    ("tokenharbor-smart-fast", "fast / cheap"),
+    ("tokenharbor-smart-thinking", "with reasoning"),
+];
+
 /// Thinking-effort rows shown in the picker, in the order DeepSeek
 /// behaviorally distinguishes them.
 const PICKER_EFFORTS: &[ReasoningEffort] = &[
@@ -78,9 +90,11 @@ impl ModelPickerView {
         } else {
             app.model.clone()
         };
-        // On pass-through providers, only show "auto" and the custom row.
+        // On pass-through providers (Token Harbor in this fork) show the
+        // curated TH brand list; on the upstream DeepSeek provider show
+        // the upstream model list.
         let visible_models: Vec<&str> = if hide_deepseek_models {
-            vec!["auto"]
+            TOKEN_HARBOR_MODELS.iter().map(|(id, _)| *id).collect()
         } else {
             PICKER_MODELS.iter().map(|(id, _)| *id).collect()
         };
@@ -115,7 +129,7 @@ impl ModelPickerView {
 
     fn visible_model_ids(&self) -> Vec<&'static str> {
         if self.hide_deepseek_models {
-            vec!["auto"]
+            TOKEN_HARBOR_MODELS.iter().map(|(id, _)| *id).collect()
         } else {
             PICKER_MODELS.iter().map(|(id, _)| *id).collect()
         }
@@ -325,7 +339,10 @@ impl ModalView for ModelPickerView {
             .split(inner);
 
         let mut model_rows: Vec<(String, String)> = if self.hide_deepseek_models {
-            vec![("auto".to_string(), "select per turn".to_string())]
+            TOKEN_HARBOR_MODELS
+                .iter()
+                .map(|(id, hint)| ((*id).to_string(), (*hint).to_string()))
+                .collect()
         } else {
             PICKER_MODELS
                 .iter()

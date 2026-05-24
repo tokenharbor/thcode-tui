@@ -4457,29 +4457,25 @@ async fn apply_command_result(
                 let _ = engine_handle.send(Op::ListSubAgents).await;
             }
             AppAction::FetchModels => {
-                if crate::config::provider_passes_model_through(config.api_provider()) {
-                    app.add_message(HistoryCell::System {
-                        content: format!(
-                            "/models is not supported by the {} provider.",
-                            config.api_provider().display_name()
-                        ),
-                    });
-                } else {
-                    app.status_message = Some("Fetching models...".to_string());
-                    match fetch_available_models(config).await {
-                        Ok(models) => {
-                            app.add_message(HistoryCell::System {
-                                content: format_helpers::available_models_message(
-                                    &app.model, &models,
-                                ),
-                            });
-                            app.status_message = Some(format!("Found {} model(s)", models.len()));
-                        }
-                        Err(error) => {
-                            app.add_message(HistoryCell::System {
-                                content: format!("Failed to fetch models: {error}"),
-                            });
-                        }
+                // Upstream short-circuited `/models` for pass-through providers
+                // because vanilla OpenAI listing isn't useful in the DeepSeek
+                // UX. Token Harbor exposes a meaningful `/v1/models` catalog
+                // (TH brand pools + every real model the user can route to),
+                // so fetch it for every provider.
+                app.status_message = Some("Fetching models...".to_string());
+                match fetch_available_models(config).await {
+                    Ok(models) => {
+                        app.add_message(HistoryCell::System {
+                            content: format_helpers::available_models_message(
+                                &app.model, &models,
+                            ),
+                        });
+                        app.status_message = Some(format!("Found {} model(s)", models.len()));
+                    }
+                    Err(error) => {
+                        app.add_message(HistoryCell::System {
+                            content: format!("Failed to fetch models: {error}"),
+                        });
                     }
                 }
             }
