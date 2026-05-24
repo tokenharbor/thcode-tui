@@ -38,7 +38,9 @@ jobs:
           shared-key: thcode-tui-${{ matrix.target }}
 
       - name: Build CLI (release)
-        run: cargo build --release --target ${{ matrix.target }} -p codewhale
+        # package name is `codewhale-cli` (see crates/cli/Cargo.toml);
+        # it produces a binary named `codewhale` via the [[bin]] entry.
+        run: cargo build --release --target ${{ matrix.target }} -p codewhale-cli --bin codewhale
 
       - name: Package
         run: |
