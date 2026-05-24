@@ -29,6 +29,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Linux system deps
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libdbus-1-dev pkg-config libssl-dev
+
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.target }}
@@ -61,7 +67,11 @@ jobs:
           retention-days: 1
 
   release:
+    # Don't block on Linux failures — Mac users are unblocked as long as
+    # the two mac builds succeed. release uploads whatever artifacts
+    # actually landed.
     needs: build
+    if: always() && !cancelled()
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -102,3 +112,4 @@ jobs:
             out/thcode-tui-darwin-arm64.tar.gz
             out/thcode-tui-darwin-x64.tar.gz
             out/thcode-tui-linux-x64.tar.gz
+          fail_on_unmatched_files: false
