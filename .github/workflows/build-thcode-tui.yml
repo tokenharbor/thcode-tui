@@ -86,7 +86,9 @@ jobs:
       - name: Compute version tag
         id: ver
         run: |
-          v=$(grep -m1 '^version' crates/cli/Cargo.toml | sed -E 's/.*"([^"]+)".*/\1/')
+          # Version lives at the workspace root since crates use
+          # `version.workspace = true`. Pull it from Cargo.toml.
+          v=$(awk -F\" '/^version *=/ { print $2; exit }' Cargo.toml)
           sha=$(git rev-parse --short HEAD)
           echo "tag=th-tui-v${v}-${sha}" >> "$GITHUB_OUTPUT"
           echo "version=${v}" >> "$GITHUB_OUTPUT"
